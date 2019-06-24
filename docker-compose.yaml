@@ -1,0 +1,40 @@
+version: "3"
+services:
+    app:
+        container_name: watchdog
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - ${APP_PORT}:5000
+        depends_on:
+          - postgre
+          - redis
+        env_file:
+          - .env
+        volumes:
+          - $PWD:/usr/src/www
+          - ./logs:/usr/src/www/storage/logs
+    postgre:
+      container_name: watchdog_db
+      image: postgres:11
+      env_file:
+        - .env
+      environment:
+        - POSTGRES_PASSWORD=${DB_PASSWORD}
+        - POSTGRES_USER=${DB_USERNAME}
+        - POSTGRES_DB=${DB_DATABASE}
+      ports:
+        - ${DB_PORT}:5432
+      restart: always
+    redis:
+      container_name: watchdog_redis
+      image: redis:5
+      command: ["redis-server", "--appendonly", "yes"]
+      volumes:
+        - ./redis-data:/data
+      env_file:
+        - .env
+      ports:
+        - ${REDIS_PORT}:6379
+      restart: always
