@@ -20,11 +20,11 @@ SERVER_PATH = os.path.abspath('.')
 __version__ = 0.1
 
 
-def get_details():
+def get_details(file_name):
     name = click.prompt(Fore.CYAN + "Your name ")
     email = click.prompt(Fore.CYAN + "Email ")
     organization = "First Pavilion"
-    controller_use = click.prompt(Fore.CYAN + "Why do we need another controller? ")
+    controller_use = click.prompt(Fore.CYAN + "Why do we need another {}? ".format(file_name))
     return name, email, organization, controller_use
 
 
@@ -48,7 +48,7 @@ def create_controller(filename):
         click.echo(Fore.WHITE + Back.RED + "ERROR: Controller file exists")
         return
 
-    name, email, org, usage = get_details()
+    name, email, org, usage = get_details("controller")
     controller_file = open(os.path.abspath('.') + '/controllers/' + file_name, 'w+')
 
     compose = '"""\n{0}\n@author: {1}\n@email: {2}\n@organisation: {3}\n"""'.format(usage, name, email, org)
@@ -69,9 +69,9 @@ def create_model(tablecolumn):
     table_name = camelcase_to_underscore(tablecolumn)
     file_name = str(clean_file_name(table_name) + '.py')
     if os.path.isfile(path + "/" + file_name):
-        click.echo(Fore.WHITE + Back.RED + "ERROR: Controller file exists")
+        click.echo(Fore.WHITE + Back.RED + "ERROR: Model file exists")
         return
-    name, email, org, usage = get_details()
+    name, email, org, usage = get_details("model")
     model_file = open(os.path.abspath('.') + '/models/' + file_name, 'w+')
     class_name = string_to_class_name_format(tablecolumn)
 
@@ -89,3 +89,4 @@ def create_model(tablecolumn):
 @main.command('run', short_help="Run the App")
 def run():
     """Run the service in the console"""
+    

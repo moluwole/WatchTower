@@ -10,6 +10,7 @@ services:
         depends_on:
           - postgre
           - redis
+          - redisearch
         env_file:
           - .env
         volumes:
@@ -37,4 +38,14 @@ services:
         - .env
       ports:
         - ${REDIS_PORT}:6379
+      restart: always
+    redisearch:
+      container_name: watch_search
+      image: redislabs/redisearch
+      volumes:
+        - ./redis-search:/data
+      env_file:
+        - .env
+      ports:
+        - 6349:6379
       restart: always
