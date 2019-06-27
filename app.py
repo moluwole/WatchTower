@@ -1,19 +1,22 @@
 #!/usr/bin/env python
+
 import os
-import logging
 
-from vibora import Vibora
+from flask import Flask
 
-from routes.views import create_server
+from routes import api
+from core.config import app_configuration
 
-app = Vibora()
+app = Flask(__name__)
+app_configuration(app)
+app.secret = os.getenv('APP_KEY', '')
+
+
+host = os.getenv('APP_HOST', '0.0.0.0')
+port = 5000
+debug = os.getenv('APP_DEBUG', False)
 
 if __name__ == '__main__':
-    host = os.getenv('APP_HOST', '0.0.0.0')
-    port = 5000
-    debug = os.getenv('APP_DEBUG', False)
-
-    app = create_server(app)
-    logging.info("Starting WatchDog...")
+    app.register_blueprint(api)
 
     app.run(host=host, port=port, debug=debug)

@@ -16,6 +16,8 @@ from .config import app_config
 
 dev_env = app_config[os.getenv('APP_ENV', 'development')]
 
+print(dev_env.SQLALCHEMY_DATABASE_URI)
+
 engine = create_engine(dev_env.SQLALCHEMY_DATABASE_URI, echo=True, convert_unicode=True)
 Session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
@@ -160,9 +162,6 @@ class OurMixin(object):
         """Convenience method to add a model to the session
         and ultimately insert in the database permanently upon commit."""
         Session.add(self)
-        # This merge is necessary to run the insert immediately.
-        # If a merge isn't done, sometimes updates or other statements
-        # will run before the INSERT to the database. Weird & Bad. -- Ben Hayden 05/31/12
         Session.merge(self)
 
         return json_dumps({return_key: getattr(self, return_attr)})
@@ -209,9 +208,6 @@ class OurMixin(object):
     def random(self):
         # Postgres
         return Session.query(self).order_by(func.random()).first()
-
-        # MySQL
-        # return Session.query(self).order_by(func.rand()).first()
 
     @classmethod
     def select_from(self, *args, **kwargs):

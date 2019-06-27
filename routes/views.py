@@ -1,26 +1,35 @@
-# import python packages here
-import os
+from routes import api
+from flask import jsonify, request
 
-# import 3rd party or framework level packages here
-from vibora.responses import JsonResponse
-from vibora.blueprints import Blueprint
-from vibora import Vibora
-
-# Import project level packages here
-from core.config import app_config
-from controllers.test_controller import TestController
-
-api = Blueprint()
+from controllers.Watcher import Watcher
 
 
 @api.route('/')
-async def index():
-    test = TestController()
-    message = test.return_message()
-    return JsonResponse({'name': message})
+def index():
+    return jsonify({'name': "Hello World"})
 
 
-def create_server(app: Vibora):
-    # Add the blueprints here.
-    app.add_blueprint(api)
-    return app
+@api.route('/save', methods=['GET', 'POST'])
+def save():
+    data = request.args
+
+    client_ip = data['clientIp']
+    service = data['service']
+    error_message = data['errorMessage']
+    stack_trace = data['stackTrace']
+    client_id = data['clientId']
+
+    watcher = Watcher()
+    result = watcher.save(client_ip, service, error_message, stack_trace, client_id)
+    return jsonify({'message': result})
+
+
+@api.route('/search', methods=['GET', 'POST'])
+def search():
+    data = request.args
+
+    query = data['query']
+
+    watcher = Watcher()
+    result = watcher.search(query)
+    return jsonify({'message': result})

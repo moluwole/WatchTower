@@ -25,15 +25,15 @@ class Config(object):
     DB_HOST = os.getenv('DB_HOST')
     DB_PASSWORD = os.getenv('DB_PASSWORD')
     DB_USERNAME = os.getenv('DB_USERNAME')
-    DB_PORT = os.getenv('DB_PORT')
+    DB_PORT = int(os.getenv('DB_PORT'))
 
     DEBUG = False
     CSRF_ENABLED = True
     SECRET = os.getenv('APP_KEY')
 
-    POSTGRES_INTERNAL = f'{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_DATABASE}'
-    SQLALCHEMY_DATABASE_URI = f"postgresql://" + POSTGRES_INTERNAL
-    SQLALCHEMY_BINDS = {'readonly': f"postgresql://" + POSTGRES_INTERNAL}
+    POSTGRES_INTERNAL = f'{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}/{DB_DATABASE}'
+    SQLALCHEMY_DATABASE_URI = f"postgres+psycopg2://" + POSTGRES_INTERNAL
+    SQLALCHEMY_BINDS = {'readonly': f"postgres+psycopg2://" + POSTGRES_INTERNAL}
 
     SQLALCHEMY_RECORD_QUERIES = True
     SQLALCHEMY_ECHO = True
@@ -64,12 +64,12 @@ class TestingConfig(Config):
 
 
 class StagingConfig(Config):
-    """Configurations for Staging."""
+    """Configuration for Staging."""
     DEBUG = True
 
 
 class ProductionConfig(Config):
-    """Configurations for Production."""
+    """Configuration for Production."""
     DEBUG = False
     TESTING = False
 
@@ -80,3 +80,31 @@ app_config = {
     'staging': StagingConfig,
     'production': ProductionConfig,
 }
+
+
+def app_configuration(app):
+    """
+    Set up Configuration
+    @param app:
+    """
+    APP_STATUS = os.getenv('APP_ENV')
+    UPLOADS = os.path.join(os.getcwd(), 'storage/uploads')
+
+    if APP_STATUS == 'testing':
+        app.config.from_object('core.config.TestingConfig')
+    elif APP_STATUS == 'staging':
+        app.config.from_object('core.config.StagingConfig')
+    elif APP_STATUS == 'production':
+        app.config.from_object('core.config.ProductionConfig')
+    else:
+        app.config.from_object('core.config.DevelopmentConfig')
+
+    # create non existent uploads directory
+    if not os.path.exists(UPLOADS):
+        try:
+            os.mkdir(UPLOADS)
+        except (Exception,):
+            pass
+
+    app.jinja_env.cache = {}  # hasten the loading of templates
+    app.jinja_env.trim_blocks = True  # Removes unwanted whitespace from render_template function

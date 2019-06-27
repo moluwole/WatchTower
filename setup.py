@@ -15,13 +15,17 @@ setup(
     install_requires=[
         'click',
         'sqlalchemy',
-        'vibora',
+        'flask',
         'colorama',
         'simplejson',
         'python-dotenv',
         'nose',
         'hooks4git',
-        'pytest'
+        'pytest',
+        'alembic',
+        'redisearch',
+        'psycopg2',
+        'psutil'
     ],
     entry_points='''
         [console_scripts]

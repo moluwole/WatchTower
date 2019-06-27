@@ -1,6 +1,0 @@
-click
-vibora
-colorama
-sqlalchemy
-python-dotenv
-simplejson

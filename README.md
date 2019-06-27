@@ -1,6 +1,6 @@
 ## **WatchDog**
 
-### **BackEnd Repo**
+### **Repo**
 
 To start with this repo, run the following command to build the repo
 ```bash
@@ -27,7 +27,7 @@ To run the app in interactive mode, run command in bash
 ./app.py
 ```
 
-On your local computer, create a ***Python 3.6*** virtual environment and run the following
+On your local computer, create a ***Python 3*** virtual environment and run the following
 ```
 pip install --editable .
 ```
@@ -45,15 +45,27 @@ A CLI tool called `pavshell` has been created inside the repo and can be used fo
 
 * To create a controller
 ```bash
-pavshell create:controller controller_name
+pavshell create:controller
 ```
 
 * To create a model file
 ```bash
-pavshell create:model model_name
+pavshell create:model
 ```
 
+* To create a migration File
+```bash
+pavshell create:migration
+```
+
+**PS**
+in order to see other commands, run `pavshell --help`
+
+_**NOTE**_: All `pavshell` commands should run in the interactive shell
+
 SQLAlchemy model classes are to be defined in `models/` package. Here you define any SQLAlchemy mappings
+
+Database Migration files go to the `migrations/versions` folder
 
 Logic, computations e.t.c are to go into the `controllers/` package
 
