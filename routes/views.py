@@ -1,12 +1,15 @@
 from routes import api
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 
 from controllers.Watcher import Watcher
 
 
 @api.route('/')
 def index():
-    return jsonify({'name': "Hello World"})
+    watcher = Watcher()
+    result = watcher.search('*', offset=0, paginate=20)
+    return render_template('index.html', data=result)
+    # return jsonify({'name': "Hello World"})
 
 
 @api.route('/save', methods=['GET', 'POST'])

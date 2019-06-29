@@ -25,7 +25,8 @@ setup(
         'alembic',
         'redisearch',
         'psycopg2',
-        'psutil'
+        'psutil',
+        'argparse'
     ],
     entry_points='''
         [console_scripts]
