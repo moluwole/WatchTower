@@ -1,0 +1,30 @@
+stages:
+  - build
+  - deploy
+  - test
+build:
+  stage: build
+  script:
+    - export PYTHONPATH=.
+    - export FLASK_APP=app.py
+    - apt-get update -qy
+    - apt-get install -y python3-dev python3-pip
+    - pip install --editable .
+    - nosetests -s tests/
+test:
+  stage: test
+  script:
+    - export PYTHONPATH=.
+    - export FLASK_APP=app.py
+    - apt-get update -qy
+    - apt-get install -y python3-dev python3-pip
+    - pip install --editable .
+    - nosetests -s tests/
+  only:
+    - merge_requests
+deploy:
+  stage: deploy
+  script:
+    - curl watchdog.eduquestpro.com/ci-route?repo=master&entry=XXX
+  only:
+    - master

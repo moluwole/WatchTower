@@ -60,7 +60,7 @@ def create_index():
         except ResponseError as err:
             print(err)
     else:
-        return error_message
+        print(error_message)
 
 
 def delete_index():
