@@ -10,6 +10,8 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -
 
 COPY . /usr/src/www
 
+RUN cp .env.example .env
+
 RUN apt-get install -y libpq-dev
 
 RUN chmod u+x app.py && npm install -g nodemon

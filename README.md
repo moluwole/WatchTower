@@ -22,6 +22,12 @@ Login to the interactive shell in order to view logs and run the application in 
 docker exec -ti watchdog bash
 ```
 
+If it's your first time running, you'll need to run migrations inside the docker bash
+
+```bash
+pavshell run:migration
+```
+
 To run the app in interactive mode, run command in bash
 ```bash
 ./app.py

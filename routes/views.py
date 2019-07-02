@@ -1,7 +1,7 @@
 from routes import api
 from flask import jsonify, request, render_template
 
-from controllers.Watcher import Watcher
+from controllers.watcher import Watcher
 
 
 @api.route('/')
@@ -32,7 +32,10 @@ def search():
     data = request.args
 
     query = data['query']
+    offset = data['offset']
+    page_num = data['pageNum']
 
     watcher = Watcher()
-    result = watcher.search(query)
-    return jsonify({'message': result})
+    result = watcher.search(query, offset=offset, paginate=page_num)
+    return render_template('index.html', data=result)
+    # return jsonify({'message': result})
