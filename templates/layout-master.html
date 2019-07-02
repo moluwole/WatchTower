@@ -8,13 +8,29 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap-datepicker.min.css')}}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/datatables.min.css')}}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400&display=swap" rel="stylesheet">
 
     <script src="{{url_for('static', filename='js/jquery-3.1.1.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/bootstrap-datepicker.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/datatables.min.js')}}"></script>
 
-    <script>
+    <style>
+      body {
+        font-family: 'Montserrat', sans-serif;
+      }
+
+      table td {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+      }
+
+      .navbar-default {
+        background: transparent !important;
+      }
+
+    </style>
+    <script>  
     $(document).ready(function(){
       var date_input=$('input[name="target_date"]');
       var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";

@@ -1,67 +1,43 @@
 {% include 'layout-master.html' %}
 <script>
   $(document).ready(function () {
-    // $('#features').DataTable();
+    $('#features').DataTable();
   })
 </script>
-<div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-
-<!--                <div class="row" style="margin-bottom: 20px; text-align: center;">-->
-<!--                    <div class="col-md-4">-->
-<!--                        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#clientName">-->
-<!--                          View By Client-->
-<!--                        </button>-->
-<!--                    </div>-->
-
-<!--                    <div class="col-md-4">-->
-<!--                         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalDate">-->
-<!--                          View By Date-->
-<!--                        </button>-->
-<!--                    </div>-->
-
-<!--                    <div class="col-md-4">-->
-<!--                        <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modalProduct">-->
-<!--                          View By Product-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-                <div class="clearfix"></div>
-
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;padding: 10px;">
                 <div class="panel panel-default">
-                    <div class="panel-heading">{{ title }}</div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table id="features" class="display table table-striped">
-                                <thead>
-                                     <tr>
-                                        <th>#</th>
-                                        <th>Client Ip</th>
-                                        <th>MicroService</th>
-                                         <th>Client Name</th>
-                                         <th>Error Message</th>
-                                         <th>StackTrace</th>
-                                     </tr>
-                                </thead>
-                                <tbody>
-                                {% for log in data %}
-                                    <tr>
-                                        <td> {{ loop.index }} </td>
-                                        <td> {{ log["client_ip"] }} </td>
-                                        <td> {{ log["service"] }} </td>
-                                        <td> {{ log["client_id"] }} </td>
-                                        <td> {{ log["error_message"] }} </td>
-                                        <td> {{ log["stack_trace"] }} </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                        <div class="panel-heading">&nbsp;: {{ title }}</div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="features" class="display table table-striped">
+                                    <thead>
+                                         <tr>
+                                            <th>#</th>
+                                            <th>Client IP</th>
+                                            <th>MicroService</th>
+                                             <th>Client Name</th>
+                                             <th>Error Message</th>
+                                             <th>StackTrace</th>
+                                             <th>Datetime</th>
+                                         </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for log in data %}
+                                        <tr>
+                                            <td> {{ loop.index }} </td>
+                                            <td> {{ log["client_ip"] }} </td>
+                                            <td> {{ log["service"] }} </td>
+                                            <td> {{ log["client_id"] }} </td>
+                                            <td> {{ log["error_message"] }} </td>
+                                            <td> {{ log["stack_trace"] }} </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </div>       
         </div>
     </div>
     
