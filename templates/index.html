@@ -1,11 +1,18 @@
 {% include 'layout-master.html' %}
-<script>
-  $(document).ready(function () {
-    $('#features').DataTable();
-  })
-</script>
-    <div class="row">
+    <div class="rows">
         <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;padding: 10px;">
+                <div class="row" style="margin-bottom: 20px;">
+                    <form method="GET" action="/search">
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="query" required/>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" id="search-btn">Search</button>
+                        </div>
+                        <input type="hidden" name="offset" value="0">
+                        <input type="hidden" name="pageNum" value="10">
+                    </form>
+                </div>
                 <div class="panel panel-default">
                         <div class="panel-heading">&nbsp;: {{ title }}</div>
                         <div class="panel-body">
@@ -34,11 +41,43 @@
                                     {% endfor %}
                                     </tbody>
                                 </table>
+                                <div id="nav">
+                                    <button class="btn btn-default" id="previous">Previous</button>
+                                    <button class="btn btn-info" id="next">Next</button>
+                                </div>
                             </div>
                         </div>
                     </div>       
         </div>
     </div>
     
+    <script>
+        $(function() {
+            let searchParams = new URLSearchParams(window.location.search);
+            if (!searchParams.get('offset')) {
+                return $('#nav').hide();
+            }
+            $('#nav').show();
+            let curOffset = parseInt(searchParams.get('offset'))
+
+            $('#next').on('click', function() {
+                curOffset += 10;
+                searchParams.set('offset', curOffset)
+                const newParamsUrl = searchParams.toString()
+                window.location = `search?${newParamsUrl}`;
+            })
+
+            $('#previous').on('click', function() {
+                if (curOffset === 0) {
+                    curOffset = 0;
+                } else {
+                    curOffset -= 10;
+                }
+                searchParams.set('offset', curOffset)
+                const newParamsUrl = searchParams.toString()
+                window.location = `search?${newParamsUrl}`;
+            });
+        })
+    </script>
 </body>
 </html>
