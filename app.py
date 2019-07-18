@@ -4,7 +4,7 @@ import os
 import subprocess
 import logging
 
-from flask import Flask, request, jsonify
+from flask import Flask, request
 
 from routes import api
 from core.config import app_configuration
