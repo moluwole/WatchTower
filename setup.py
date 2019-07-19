@@ -26,7 +26,8 @@ setup(
         'redisearch',
         'psycopg2',
         'psutil',
-        'argparse'
+        'argparse',
+        'requests[security]'
     ],
     entry_points='''
         [console_scripts]

@@ -8,8 +8,11 @@ This controller would contain all the modules of WatchDog
 """
 import os
 import time
+import datetime
 
+import json
 import argparse
+import requests
 from redisearch import Client, TextField, Query
 from redis.exceptions import ResponseError
 
@@ -39,6 +42,7 @@ class Watcher(object):
         self.stack_trace = stack_trace
         self.client_id = client_id
         self.id = error_id
+        self.date_time = datetime.datetime.now()
 
         save_item(self)
         return "Logger saved successfully"
@@ -46,6 +50,43 @@ class Watcher(object):
     @staticmethod
     def search(query, offset=0, paginate=10):
         return search(query, offset, paginate)
+
+
+def send_to_slack(payload):
+    url = 'https://hooks.slack.com/services/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'
+    headers = {'content-type': 'application/json'}
+
+    message = {"attachments": [
+            {
+                "fallback": payload['errorMessage'],
+                "color": "danger",
+                "pretext": "Error from domain https://{0}.eduquestpro.com".format(payload['clientId']),
+                "author_name": "WatchDog",
+                "author_link": "https://watchdog.eduquestpro.com",
+                "author_icon": "https://watchdog.eduquestpro.com/static/img/watch_dog.png",
+                "title": "{0} Microservice Error".format(payload['service']),
+                "text": payload['stackTrace'],
+                "fields": [
+                    {
+                        "title": "Priority",
+                        "value": "Critical",
+                        "short": False
+                    }
+                ],
+                "actions": [
+                    {
+                        "type": "button",
+                        "text": "Open WatchDog 🛫",
+                        "url": "https://watchdog.eduquestpro.com"
+                    }],
+                "footer": "WatchDog",
+                "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
+                "ts": datetime.datetime.now().timestamp()
+            }
+        ]
+    }
+
+    requests.post(url, data=json.dumps(message), headers=headers)
 
 
 def create_index():
@@ -64,18 +105,18 @@ def create_index():
 
 
 def delete_index():
-    client = Client('watcher', port=6379, host='redisearch')
+    client = Client("watcher", port=6379, host='redisearch')
     client.drop_index()
 
 
 def build_index(client):
     start_time = time.time()
-    for log in Logs.all():
+    all_logs = Logs.all()
+    for log in all_logs:
         client.add_document(log.id, clientIp=log.client_ip, service=log.service, errorMessage=log.error_message,
-                            stackTrace=log.stack_trace, clientid=log.client_id)
+                            stackTrace=log.stack_trace, clientid=log.client_id, dateTime=log.date_time)
     print("----Watcher took {0} seconds to build index------".format(time.time() - start_time))
-    info = client.info()
-    print("{0} number of documents in index".format(len(info.items())))
+    print("{0} number of documents in index".format(len(all_logs)))
 
 
 def save_item(watcher):
@@ -83,7 +124,17 @@ def save_item(watcher):
 
     client.add_document(watcher.id, clientIp=watcher.client_ip, service=watcher.service,
                         errorMessage=watcher.error_message, stackTrace=watcher.stack_trace,
-                        clientId=watcher.client_id)
+                        clientId=watcher.client_id, dateTime=watcher.date_time)
+
+    payload = {
+        "clientIp": watcher.client_ip,
+        "service": watcher.service,
+        "errorMessage": watcher.error_message,
+        "stackTrace": watcher.stack_trace,
+        "clientId": watcher.client_id,
+        "dateTime": watcher.date_time
+    }
+    send_to_slack(payload)
 
 
 def search(query, offset=0, paginate=10):
@@ -98,9 +149,11 @@ def search(query, offset=0, paginate=10):
             'service': doc.service,
             'error_message': doc.errorMessage,
             'stack_trace': doc.stackTrace,
-            'client_id': doc.clientid
+            'client_id': doc.clientId,
+            'datetime': doc.dateTime
         }
         result.append(value_dict)
+    print(res)
     return result
 
 
@@ -109,7 +162,8 @@ document = [
     TextField('service', weight=1.0),
     TextField('errorMessage', weight=10.0),
     TextField('stackTrace'),
-    TextField('clientId', weight=10.0)
+    TextField('clientId', weight=10.0),
+    TextField('dateTime', weight=10.0)
 ]
 
 if __name__ == '__main__':

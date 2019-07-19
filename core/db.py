@@ -19,7 +19,7 @@ dev_env = app_config[os.getenv('APP_ENV', 'development')]
 print(dev_env.SQLALCHEMY_DATABASE_URI)
 
 engine = create_engine(dev_env.SQLALCHEMY_DATABASE_URI, echo=True, convert_unicode=True)
-Session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+Session = scoped_session(sessionmaker(autocommit=False, autoflush=True, bind=engine))
 
 Base = declarative_base()
 Base.query = Session.query_property()
