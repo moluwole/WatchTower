@@ -36,7 +36,15 @@
                                             <td> {{ log["service"] }} </td>
                                             <td> {{ log["client_id"] }} </td>
                                             <td> {{ log["error_message"] }} </td>
-                                            <td> {{ log["stack_trace"] }} </td>
+                                            <td style="width: 20%;"> 
+                                                    <div class="content stacktrace-{{loop.index}}" style="overflow-wrap: break-word;width:300px;font-family: monaco, sans-serif;font-size: 12px;color: #993300;">
+                                                        <p>{{ log["stack_trace"] }} </p>
+                                                    </div>
+                                                    <div class="contentpreview-{{loop.index}}" style="overflow-wrap: break-word;width:300px;display: none;">
+                                                        <p>{{ log["stack_trace"] }} </p>
+                                                    </div>
+                                                    <a href="javascript:void(0)" class="stacktrace" data-id="{{loop.index}}" style="font-size: 12px;font-weight: bold;">view more</a>
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
@@ -50,9 +58,39 @@
                     </div>       
         </div>
     </div>
-    
+      <!-- Modal -->
+      <div class="modal fade" id="stacktrace-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="" style="margin-bottom: 0px;">Error Stacktrace</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div id="stackview" style="overflow-wrap: break-word;width:100%;font-family: monaco, sans-serif;font-size: 12px;color: #993300;"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
     <script>
         $(function() {
+            let allcontent = "";
+            const content = $('.content').text();
+            $('.content').text(content.substring(0, 100));
+
+            $('.stacktrace').on('click', function() {
+                const id = $(this).data('id')
+                $('#stacktrace-modal').modal('show')
+                const content = $(`.contentpreview-${id}`).html()
+                $('#stackview').html(content)
+            });
+
             let searchParams = new URLSearchParams(window.location.search);
             if (!searchParams.get('offset')) {
                 return $('#nav').hide();
