@@ -39,9 +39,9 @@ def reload():
     repo = request.args.get('repo')
     if request.args.get('entry') == 'XXX':
         try:
-            subprocess.call(['git checkout origin {0}'.format(repo)])
+            subprocess.call(['git checkout {0}'.format(repo)])
 
-            subprocess.call(['git pull origin {0}'.format(repo)])
+            subprocess.call(['git pull {0}'.format(repo)])
             return 'success'
         except OSError as e:
             print(e)
