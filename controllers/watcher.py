@@ -42,7 +42,7 @@ class Watcher(object):
         self.stack_trace = stack_trace
         self.client_id = client_id
         self.id = error_id
-        self.date_time = datetime.datetime.now()
+        self.date_time = str(datetime.datetime.today().strftime('%Y-%m-%d'))
 
         save_item(self)
         return "Logger saved successfully"
