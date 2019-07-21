@@ -2,7 +2,7 @@ version: "3"
 services:
     app:
         container_name: watchdog
-        command: gunicorn --reload --bind 0.0.0.0:5000 app:app
+        command: gunicorn --reload --bind 0.0.0.0:5001 app:app
         build:
             context: .
             dockerfile: Dockerfile.prod
