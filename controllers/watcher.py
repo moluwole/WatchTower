@@ -60,10 +60,10 @@ def send_to_slack(payload):
             {
                 "fallback": payload['errorMessage'],
                 "color": "danger",
-                "pretext": "Error from domain https://{0}.eduquestpro.com".format(payload['clientId']),
+                "pretext": "Error from domain {0}".format(payload['clientId']),
                 "author_name": "WatchDog",
-                "author_link": "https://watchdog.eduquestpro.com",
-                "author_icon": "https://watchdog.eduquestpro.com/static/img/watch_dog.png",
+                "author_link": "http://watchdog.eduquestpro.com",
+                "author_icon": "http://watchdog.eduquestpro.com/static/img/watch_dog.png",
                 "title": "{0} Microservice Error".format(payload['service']),
                 "text": payload['stackTrace'],
                 "fields": [
