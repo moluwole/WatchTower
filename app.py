@@ -44,6 +44,7 @@ def reload():
             subprocess.call(['git pull origin {0}'.format(repo)])
             return 'success'
         except OSError as e:
+            print(e)
             logging.error(e.strerror)
             return 'fail'
     else:
