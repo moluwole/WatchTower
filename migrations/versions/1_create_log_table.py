@@ -1,7 +1,6 @@
 """
 @author: Oluwole Majiyagbe
-@email: oluwole.majiyagbe@firstpavitech.com
-@organisation: First Pavilion
+@email: oluwole564@gmail.com
 
 Functionality
 =======================
