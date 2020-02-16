@@ -1,4 +1,5 @@
-{% include 'layout-master.html' %}
+{% extends 'layout-master.html' %}
+{% block content %}
     <div class="rows">
         <div class="col-md-10 col-md-offset-1" style="margin-top: 20px;padding: 10px;">
                 <div class="row" style="margin-bottom: 20px;">
@@ -85,9 +86,9 @@
             $('.content').text(content.substring(0, 100));
 
             $('.stacktrace').on('click', function() {
-                const id = $(this).data('id')
-                $('#stacktrace-modal').modal('show')
-                const content = $(`.contentpreview-${id}`).html()
+                const id = $(this).data('id');
+                $('#stacktrace-modal').modal('show');
+                const content = $(`.contentpreview-${id}`).html();
                 $('#stackview').html(content)
             });
 
@@ -96,14 +97,14 @@
                 return $('#nav').hide();
             }
             $('#nav').show();
-            let curOffset = parseInt(searchParams.get('offset'))
+            let curOffset = parseInt(searchParams.get('offset'));
 
             $('#next').on('click', function() {
                 curOffset += 10;
-                searchParams.set('offset', curOffset)
-                const newParamsUrl = searchParams.toString()
+                searchParams.set('offset', curOffset);
+                const newParamsUrl = searchParams.toString();
                 window.location = `search?${newParamsUrl}`;
-            })
+            });
 
             $('#previous').on('click', function() {
                 if (curOffset === 0) {
@@ -111,11 +112,11 @@
                 } else {
                     curOffset -= 10;
                 }
-                searchParams.set('offset', curOffset)
-                const newParamsUrl = searchParams.toString()
+                searchParams.set('offset', curOffset);
+                const newParamsUrl = searchParams.toString();
                 window.location = `search?${newParamsUrl}`;
             });
         })
     </script>
-</body>
-</html>
+
+{% endblock %}

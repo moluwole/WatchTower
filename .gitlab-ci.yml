@@ -27,6 +27,6 @@ test:
 deploy:
   stage: deploy
   script:
-    - curl watchdog.eduquestpro.com/ci-route?repo=master&entry=XXX
+    - curl WatchTower.eduquestpro.com/ci-route?repo=master&entry=XXX
   only:
     - master

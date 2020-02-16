@@ -8,7 +8,8 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from core import db
+from models import Base
+
 from core.config import app_config
 
 # this is the Alembic Config object, which provides
@@ -25,7 +26,7 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 config.set_main_option('sqlalchemy.url', app_config[os.getenv('APP_ENV')].SQLALCHEMY_DATABASE_URI)
-target_metadata = db.Base.metadata
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

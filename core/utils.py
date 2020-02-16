@@ -3,14 +3,13 @@
 Core.utils is a module that contains several helper functions, 'one-liners'
 and other useful miscellaneous functions.
 
-@author: OLuwole Majiyagbe
+@author: Oluwole Majiyagbe
 @contact: oluwole.majiyagbe@firstpavitech.com
 @organization: First Pavilion
 
 """
 
 import re
-import collections
 import simplejson
 from uuid import uuid4
 
@@ -47,33 +46,6 @@ def underscore_to_camelcase(name):
 
 
 def json_dumps(python_object, dents=None, if_err=None, **kwargs):
-    """Takes a value (list, dictionary, etc) that is JSON serializable, and
-    dumps it as a string. Indentation is set to 4 spaces by default.
-
-    @param python_object: A native Python instance (list, dictionary, etc).
-    @param dents: The number of spaces used for indentation in the
-                  JSON-formatted string that is returned.
-    @param if_err: What is returned if an error occurs.
-    @param kwargs: Any other keyworded args are then passed to simplejson.dumps directly.
-    @return: A JSON-formatted string."""
-    def to_json(an_object):
-        """
-        Adding in custom serialization for Date objects.
-
-        """
-        from datetime import date, datetime, time
-        if (isinstance(an_object, date) or
-                isinstance(an_object, datetime) or
-                isinstance(an_object, time)):
-            return str(an_object)
-        elif isinstance(an_object, collections.Set):
-            return list(an_object)
-        elif hasattr(an_object, 'to_dict'):
-            return an_object.to_dict()
-        elif hasattr(an_object, '__call__'):
-            return ''
-        raise TypeError(repr(an_object) + ' is not JSON serializable')
-
     try:
         return simplejson.dumps(python_object, default=to_json, indent=dents, namedtuple_as_object=False, **kwargs)
     except (ValueError, TypeError):
@@ -81,13 +53,6 @@ def json_dumps(python_object, dents=None, if_err=None, **kwargs):
 
 
 def clean_file_name(file_name, remove_spaces=False):
-    """Makes a string safe to use as a file-name
-       Removes any characters that are dangerous for file names
-       on windows, mac, or linux and replaces them with spaces
-
-       file_name: the ascii string to be cleaned
-       returns: a string that is safe to use as a file name"""
-
     if not file_name:
         return ''
 

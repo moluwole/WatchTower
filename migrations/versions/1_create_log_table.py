@@ -25,7 +25,7 @@ depends_on = None
 
 
 def upgrade():
-    op.create_table('watcher',
+    op.create_table('logs',
                     Column(u'id', CHAR(length=36), default=uuid, primary_key=True, nullable=False),
                     Column(u'clientIp', VARCHAR(length=20)),
                     Column(u'service', VARCHAR(length=250)),
@@ -33,8 +33,10 @@ def upgrade():
                     Column(u'errorMessage', TEXT),
                     Column(u'stackTrace', TEXT),
                     Column('clientId', CHAR(length=36)),
-                    )
+                    Column('dateAdded', TIMESTAMP(), nullable=False, server_default=text('CURRENT_TIMESTAMP')),
+                    Column(u'dateUpdated', TIMESTAMP(), nullable=False, server_onupdate=text('CURRENT_TIMESTAMP'),
+                           server_default=text('CURRENT_TIMESTAMP')))
 
 
 def downgrade():
-    op.drop_table('watcher')
+    op.drop_table('logs')

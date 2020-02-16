@@ -7,7 +7,7 @@ def readme():
 
 
 setup(
-    name='WatchDog',
+    name='WatchTower',
     version='0.1',
     packages=find_packages(),
     include_package_data=True,
@@ -27,10 +27,11 @@ setup(
         'psycopg2',
         'psutil',
         'argparse',
-        'requests[security]'
+        'requests[security]',
+        'gunicorn'
     ],
     entry_points='''
         [console_scripts]
-        pavshell=core.cli:main
+        watchshell=core.cli:main
     ''',
 )

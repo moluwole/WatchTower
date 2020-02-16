@@ -1,23 +1,23 @@
 version: "3"
 services:
     app:
-        container_name: watchdog
+        container_name: watchTower
         build:
             context: .
             dockerfile: Dockerfile
         ports:
             - ${APP_PORT}:5000
-            - 80:5050
         depends_on:
           - postgre
           - redisearch
         env_file:
           - .env
         volumes:
-          - $PWD:/usr/src/www
-          - ./storage/logs:/usr/src/www/storage/logs
+          - ${PWD}:/usr/src/www
+          - ${PWD}/storage/logs:/tmp/logs
+          - ${PWD}/storage/logs/watchtower:/tmp/logs/watchtower
     postgre:
-      container_name: watchdog_db
+      container_name: watchDb
       image: postgres:11
       env_file:
         - .env
@@ -29,12 +29,21 @@ services:
         - ${DB_PORT}:5432
       restart: always
     redisearch:
-      container_name: watchdog_search
+      container_name: watchSearch
       image: redislabs/redisearch
       volumes:
-        - ./redis:/data
+        - ${PWD}/redis:/data
       env_file:
         - .env
       ports:
         - ${REDIS_PORT}:6379
       restart: always
+    adminer:
+      container_name: watchAdmin
+      image: adminer
+      restart: always
+      environment:
+        - ADMINER_DESIGN=pepa-linha
+        - ADMINER_DEFAULT_SERVER=postgre
+      ports:
+        - 8088:8080

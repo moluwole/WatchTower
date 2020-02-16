@@ -4,7 +4,7 @@ import os
 # import 3rd party or framework level packages here
 from flask import Blueprint
 
-api = Blueprint('watchdog', __name__)
+api = Blueprint('WatchTower', __name__)
 
 from routes import views
 

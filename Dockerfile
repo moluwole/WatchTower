@@ -2,20 +2,26 @@ FROM python:3
 
 EXPOSE 5000
 
-EXPOSE 5050
+RUN adduser --disabled-password --home=/home/ubuntu --gecos "" ubuntu
+RUN echo "ubuntu ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN echo 'ubuntu:docker' | chpasswd
+
+RUN apt-get update && apt-get install -yq git
+
+RUN mkdir -p /tmp/logs/watchtower && touch /tmp/logs/watchtower/watch.log
 
 WORKDIR /usr/src/www
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -y nodejs
+RUN apt-get install -y libpq-dev
+
+RUN pip install supervisor
+
+COPY ./services/supervisord.conf /etc/supervisor/supervisord.conf
+COPY services/watchtower.conf /etc/supervisor/conf.d/watchtower.conf
+COPY ./services/startup.sh /etc/startup.sh
 
 COPY . /usr/src/www
 
-RUN cp .env.example .env
+RUN chmod +x /etc/startup.sh
 
-RUN apt-get install -y libpq-dev
-
-RUN chmod u+x app.py && npm install -g nodemon
-
-RUN export FLASK_APP=app.py && pip install --editable .
-
-CMD ["flask", "run", "--host", "0.0.0.0", "--port", "5050"]
+ENTRYPOINT ["/etc/startup.sh"]

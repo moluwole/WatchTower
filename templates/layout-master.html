@@ -46,100 +46,6 @@
 
 </head>
 <body>
-
-
-<div class="modal fade" id="clientName" tabindex="-1" role="dialog" aria-labelledby="clientModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-<!--      <div class="modal-header">-->
-<!--        <h5 class="modal-title" id="exampleModalLabel">Choose Client</h5>-->
-<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--          <span aria-hidden="true">&times;</span>-->
-<!--        </button>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        <form action="/by-client" method="POST">-->
-<!--            <div class="form-group">-->
-<!--                <label class="control-label">Choose Client</label>-->
-<!--                <select class="form-control" name="client_name" id="client_name" tabindex="-1">-->
-<!--                    <optgroup label="Clients">-->
-<!--                        <option>Client A</option>-->
-<!--                        <option>Client B</option>-->
-<!--                        <option>Client C</option>-->
-<!--                    </optgroup>-->
-<!--                </select>-->
-<!--                </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                <button type="submit" class="btn btn-primary">Search</button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--      </div>-->
-    </div>
-  </div>
-</div>
-
-
-<!--<div class="modal fade" id="modalDate" tabindex="-1" role="dialog" aria-labelledby="modalDate" aria-hidden="true">-->
-<!--  <div class="modal-dialog" role="document">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <h5 class="modal-title">Choose Date</h5>-->
-<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--          <span aria-hidden="true">&times;</span>-->
-<!--        </button>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        <form action="/by-date" method="POST">-->
-<!--            <div class="form-group">-->
-<!--                <label for="target_date" class="control-label">Target Date</label>-->
-<!--                    <input type='text' class="form-control" name="target_date" id="target_date" required />-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                <button type="submit" class="btn btn-primary">Search</button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-
-<!--<div class="modal fade" id="modalProduct" tabindex="-1" role="dialog" aria-labelledby="modalProduct" aria-hidden="true">-->
-<!--  <div class="modal-dialog" role="document">-->
-<!--    <div class="modal-content">-->
-<!--      <div class="modal-header">-->
-<!--        <h5 class="modal-title">Choose Product Area</h5>-->
-<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--          <span aria-hidden="true">&times;</span>-->
-<!--        </button>-->
-<!--      </div>-->
-<!--      <div class="modal-body">-->
-<!--        <form action="/by-product" method="POST">-->
-<!--            <div class="form-group">-->
-<!--                <label for="product_areas" class="control-label">Product Areas</label>-->
-<!--                <select id="product_areas" name="product_areas" required>-->
-<!--                    <optgroup label="Client Priority">-->
-<!--                        <option>Policies</option>-->
-<!--                        <option>Billing</option>-->
-<!--                        <option>Claims</option>-->
-<!--                        <option>Reports</option>-->
-<!--                    </optgroup>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--            <div class="modal-footer">-->
-<!--                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                <button type="submit" class="btn btn-primary">Search</button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</div>-->
-
-
-
     <nav class="navbar navbar-default">
       <div class="container">
         <div class="navbar-header">
@@ -151,11 +57,13 @@
           </button>
           <a class="navbar-brand" href="/"><img src="{{url_for('static', filename='img/watch_dog.png')}}" alt="WatchDog" height="60px", width="60px" /></a>
         </div>
-
-<!--        <div class="collapse navbar-collapse" id="navbar-collapse">-->
-<!--          <ul class="nav navbar-nav navbar-right">-->
-<!--              <li><a href="/new_ticket">Request New Feature</a></li>-->
-<!--          </ul>-->
-<!--        </div>-->
       </div>
     </nav>
+
+{% block content %}
+    Content here
+{% endblock %}
+
+
+</body>
+</html>

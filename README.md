@@ -1,78 +1,16 @@
-## **WatchDog**
+## **LightHouse**
 
-### **Repo**
+### **Collect Error Logs from a number of applications**
 
 To start with this repo, run the following command to build the repo
 ```bash
-docker-compose up --build -d
+docker-compose -p lighthouse build
 ```
 
-Wait a while for it to pull every necessary files. After installation, confirm the containers has been created and running
+Once the containers have been built, use the following commands to start up the container
 ```bash
-docker container ls
+docker-compose -p lighthouse up -d
 ```
 
-You should see your container. If you don't see it, run the following
-```bash
-docker container start watchdog
-```
+This starts the containers in `detach` mode
 
-Login to the interactive shell in order to view logs and run the application in interactive mode
-```bash
-docker exec -ti watchdog bash
-```
-
-If it's your first time running, you'll need to run migrations inside the docker bash
-
-```bash
-pavshell run:migration
-```
-
-To run the app in interactive mode, run command in bash
-```bash
-./app.py
-```
-
-On your local computer, create a ***Python 3*** virtual environment and run the following
-```
-pip install --editable .
-```
-
-AND
-
-```
-hooks4git --init
-```
-
-This installs the packages to use in your virtual environment for Intellisense and at the same time setup Git Hooks
-
-#### CLI COMMANDS
-A CLI tool called `pavshell` has been created inside the repo and can be used for minor commands
-
-* To create a controller
-```bash
-pavshell create:controller
-```
-
-* To create a model file
-```bash
-pavshell create:model
-```
-
-* To create a migration File
-```bash
-pavshell create:migration
-```
-
-**PS**
-in order to see other commands, run `pavshell --help`
-
-_**NOTE**_: All `pavshell` commands should run in the interactive shell
-
-SQLAlchemy model classes are to be defined in `models/` package. Here you define any SQLAlchemy mappings
-
-Database Migration files go to the `migrations/versions` folder
-
-Logic, computations e.t.c are to go into the `controllers/` package
-
-in the `route/views.py` file, define your routes (Flask style) and perform any computation that deals with request objects

@@ -12,7 +12,7 @@ def index():
     # return jsonify({'name': "Hello World"})
 
 
-@api.route('/save', methods=['GET', 'POST'])
+@api.route('/save', methods=['POST'])
 def save():
     data = request.args
 
