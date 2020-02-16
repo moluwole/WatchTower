@@ -4,8 +4,7 @@ Core.utils is a module that contains several helper functions, 'one-liners'
 and other useful miscellaneous functions.
 
 @author: Oluwole Majiyagbe
-@contact: oluwole.majiyagbe@firstpavitech.com
-@organization: First Pavilion
+@email: oluwole564@gmail.com
 
 """
 

@@ -3,8 +3,7 @@
 """
 This controller would contain all the modules of the WatchTower
 @author: Oluwole Majiyagbe
-@email: oluwole.majiyagbe@firstpavitech.com
-@organisation: First Pavilion
+@email: oluwole564@gmail.com
 """
 import os
 import time

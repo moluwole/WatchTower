@@ -1,9 +1,8 @@
 """
 Command Line modules. Some code command line to use in creating templates and running the app
 
-@author: OLuwole Majiyagbe
-@contact: oluwole.majiyagbe@firstpavitech.com
-@organization: First Pavilion
+@author: Oluwole Majiyagbe
+@email: oluwole564@gmail.com
 """
 
 import os
