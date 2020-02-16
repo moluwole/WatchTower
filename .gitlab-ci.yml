@@ -27,6 +27,6 @@ test:
 deploy:
   stage: deploy
   script:
-    - curl WatchTower.eduquestpro.com/ci-route?repo=master&entry=XXX
+    - curl myciroute.com/ci-route?repo=master&entry=XXX
   only:
     - master
