@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 def readme():
-    with open('README.md') as f:
+    with open('../README.md') as f:
         return f.read()
 
 
@@ -24,7 +24,7 @@ setup(
         'pytest',
         'alembic',
         'redisearch',
-        'psycopg2',
+        'psycopg2-binary',
         'psutil',
         'argparse',
         'requests[security]',

@@ -2,7 +2,7 @@
 
 # EDITOR Configs
 # PyCharm
-.idea
+../.idea
 # VS Code
 .vscode
 
@@ -32,7 +32,7 @@ htmlcov
 nosetests_*.xml
 tags
 
-storage
+watcher/storage
 logs
 redis-data
 .env

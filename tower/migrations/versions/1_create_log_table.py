@@ -4,7 +4,7 @@
 
 Functionality
 =======================
-Create the watcher tables and columns
+Create the tower tables and columns
 
 Revision ID: d1ec37cb8bce
 Revises: 
@@ -25,15 +25,15 @@ depends_on = None
 
 def upgrade():
     op.create_table('logs',
-                    Column(u'id', CHAR(length=36), default=uuid, primary_key=True, nullable=False),
-                    Column(u'clientIp', VARCHAR(length=20)),
-                    Column(u'service', VARCHAR(length=250)),
-                    Column(u'dateOccurred', TIMESTAMP(), server_default=text('CURRENT_TIMESTAMP'), nullable=False),
-                    Column(u'errorMessage', TEXT),
-                    Column(u'stackTrace', TEXT),
-                    Column('clientId', CHAR(length=36)),
+                    Column('id', INTEGER, primary_key=True, nullable=False, autoincrement=True),
+                    Column('clientIp', VARCHAR(length=20)),
+                    Column('service', VARCHAR(length=250)),
+                    Column('dateOccurred', TIMESTAMP(), server_default=text('CURRENT_TIMESTAMP'), nullable=False),
+                    Column('errorMessage', TEXT),
+                    Column('stackTrace', TEXT),
+                    Column('numberRange', INTEGER),
                     Column('dateAdded', TIMESTAMP(), nullable=False, server_default=text('CURRENT_TIMESTAMP')),
-                    Column(u'dateUpdated', TIMESTAMP(), nullable=False, server_onupdate=text('CURRENT_TIMESTAMP'),
+                    Column('dateUpdated', TIMESTAMP(), nullable=False, server_onupdate=text('CURRENT_TIMESTAMP'),
                            server_default=text('CURRENT_TIMESTAMP')))
 
 

@@ -139,7 +139,7 @@ class Helper(object):
 class Model(Base, Helper):
     __abstract__ = True
 
-    id = Column(u'id', CHAR(length=36), default=uuid, primary_key=True, nullable=False)
+    id = Column('id', INTEGER, primary_key=True, nullable=False, autoincrement=True)
     date_added = Column('dateAdded', TIMESTAMP(), nullable=False, server_default=text('CURRENT_TIMESTAMP'))
-    date_updated = Column(u'dateUpdated', TIMESTAMP(), nullable=False, server_onupdate=text('CURRENT_TIMESTAMP'),
+    date_updated = Column('dateUpdated', TIMESTAMP(), nullable=False, server_onupdate=text('CURRENT_TIMESTAMP'),
                           server_default=text('CURRENT_TIMESTAMP'))

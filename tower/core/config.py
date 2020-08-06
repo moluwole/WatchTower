@@ -5,22 +5,6 @@ from dotenv import load_dotenv
 
 class Config(object):
     """Parent Configuration Class"""
-    env_file = os.path.abspath('.') + '/.env'
-    key = b64encode(os.urandom(32)).decode('utf-8')
-
-    with open(env_file, 'r') as file:
-        env_data = file.readlines()
-
-    for line_number, line in enumerate(env_data):
-        if line.startswith('APP_KEY='):
-            env_data[line_number] = 'APP_KEY={0}\n'.format(key)
-            break
-
-    with open(env_file, 'w') as file:
-        file.writelines(env_data)
-
-    load_dotenv(env_file)
-
     DB_DATABASE = os.getenv('DB_DATABASE')
     DB_HOST = os.getenv('DB_HOST')
     DB_PASSWORD = os.getenv('DB_PASSWORD')

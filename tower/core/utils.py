@@ -46,7 +46,7 @@ def underscore_to_camelcase(name):
 
 def json_dumps(python_object, dents=None, if_err=None, **kwargs):
     try:
-        return simplejson.dumps(python_object, default=to_json, indent=dents, namedtuple_as_object=False, **kwargs)
+        return simplejson.dumps(python_object, indent=dents, namedtuple_as_object=False, **kwargs)
     except (ValueError, TypeError):
         return simplejson.dumps(if_err or {})
 

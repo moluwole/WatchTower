@@ -14,17 +14,17 @@ def index():
 
 @api.route('/save', methods=['POST'])
 def save():
-    data = request.args
+    data = request.json
 
     client_ip = data['clientIp']
     service = data['service']
     error_message = data['errorMessage']
     stack_trace = data['stackTrace']
-    client_id = data['clientId']
+    number_range = data['numberRange']
 
     watcher = Watcher()
-    result = watcher.save(client_ip, service, error_message, stack_trace, client_id)
-    return jsonify({'message': result})
+    result = watcher.save(client_ip, service, error_message, stack_trace, number_range=number_range)
+    return jsonify({'message': result, 'success': True})
 
 
 @api.route('/search', methods=['GET', 'POST'])

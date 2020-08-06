@@ -12,7 +12,7 @@ import datetime
 import json
 import argparse
 import requests
-from redisearch import Client, TextField, Query
+from redisearch import Client, TextField, Query, GeoField, NumericField
 from redis.exceptions import ResponseError
 
 from models.watcher import Logs
@@ -24,42 +24,42 @@ def get_engine(param):
 
 
 class Watcher(object):
-    def __init__(self, param=None):
-        self.document_id = param if param is not None else "watcher"
+    def __init__(self, param=None, persist=False):
+        self.persist = persist
+        self.document_id = param if param is not None else "tower"
 
-    def save(self, client_ip, service, error_message, stack_trace, client_id):
+    def save(self, client_ip, service, error_message, stack_trace, number_range):
+
         log = Logs()
 
-        log.client_id = client_id
         log.client_ip = client_ip
         log.service = service
         log.error_message = error_message
         log.stack_trace = stack_trace
+        log.number_range = number_range
 
         log.insert()
-
         log.commit()
 
         self.save_item(log)
         return "Logger saved successfully"
 
     def save_item(self, watcher):
-        client = Client("watcher", port=6379, host=os.getenv('REDIS_HOST'))
+        client = Client("tower", port=6379, host=os.getenv('REDIS_HOST'))
 
         client.add_document(watcher.id,
                             clientIp=watcher.client_ip,
                             service=watcher.service,
                             errorMessage=watcher.error_message,
                             stackTrace=watcher.stack_trace,
-                            clientId=watcher.client_id,
-                            dateTime=watcher.date_added)
+                            numberRange=watcher.number_range,
+                            dateTime=watcher.date_added.strftime("%Y-%m-%d"))
 
         payload = {
             "clientIp": watcher.client_ip,
             "service": watcher.service,
             "errorMessage": watcher.error_message,
             "stackTrace": watcher.stack_trace,
-            "clientId": watcher.client_id,
             "dateTime": watcher.date_added
         }
 
@@ -109,7 +109,7 @@ class Watcher(object):
         error_message = "Unable to create Index. Try Again"
         redis_enabled = os.getenv("REDIS_SEARCH", False)
         if redis_enabled:
-            client = Client("watcher", port=6379, host=os.getenv('REDIS_HOST'))
+            client = Client("tower", port=6379, host=os.getenv('REDIS_HOST'))
             try:
                 client.create_index(document)
                 cls.build_index(client)
@@ -121,7 +121,7 @@ class Watcher(object):
 
     @classmethod
     def delete_index(cls):
-        client = Client("watcher", port=6379, host=os.getenv('REDIS_HOST'))
+        client = Client("tower", port=6379, host=os.getenv('REDIS_HOST'))
         client.drop_index()
 
     @classmethod
@@ -134,15 +134,14 @@ class Watcher(object):
                                 service=log.service,
                                 errorMessage=log.error_message,
                                 stackTrace=log.stack_trace,
-                                clientid=log.client_id,
-                                dateTime=log.date_time)
+                                numberRange=log.number_range)
         print("----Watcher took {0} seconds to build index------".format(time.time() - start_time))
         print("{0} number of documents in index".format(len(all_logs)))
 
 
     @classmethod
     def search(cls, query, offset=0, paginate=10):
-        client = Client("watcher", port=6379, host=os.getenv('REDIS_HOST'))
+        client = Client("tower", port=6379, host=os.getenv('REDIS_HOST'))
         q = Query(query).paging(offset, paginate)
         res = client.search(q)
         result = []
@@ -153,8 +152,7 @@ class Watcher(object):
                 'service': doc.service,
                 'error_message': doc.errorMessage,
                 'stack_trace': doc.stackTrace,
-                'client_id': doc.clientId,
-                'datetime': doc.dateTime
+                'numberRange': doc.numberRange
             }
             result.append(value_dict)
         print(res)
@@ -166,8 +164,8 @@ document = [
     TextField('service', weight=1.0),
     TextField('errorMessage', weight=10.0),
     TextField('stackTrace'),
-    TextField('clientId', weight=10.0),
-    TextField('dateTime', weight=10.0)
+    TextField('dateTime', weight=10.0),
+    NumericField('numberRange')
 ]
 
 if __name__ == '__main__':

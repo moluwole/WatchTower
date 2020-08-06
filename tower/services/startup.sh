@@ -14,7 +14,7 @@ while true; do
   RESULT=$?
   if [[ $RESULT -eq 0 ]]; then
     # Create RediSearch Index
-    python controllers/watcher.py
+    python controllers/tower.py
     break
   fi
 

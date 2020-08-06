@@ -30,7 +30,7 @@ app.register_blueprint(api)
 
 
 ########################################################################
-#   This is the route for CI/CD. i.e. pulling and pushing to server    #
+#   This is the route for CI/CD. i.e. pulling and pushing to tower    #
 #   Do not edit this route in anyway                                   #
 ########################################################################
 
